@@ -1,6 +1,10 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.05 - Tue Jun 15 13:08:22 2004
+* added support to extract references from SCRIPT tags
+* cleaned up the dist to use Test::More, and other housekeeping things
+
 0.72 Fri Nov  9 04:07:17 EST 2001
 	- fixed bug with img tags that contained a usemap attribute
 	(identified by Will Crain <crainw@hotmail.com>)
