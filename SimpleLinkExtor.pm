@@ -25,7 +25,7 @@ $DEBUG   = 0;
 	body    tag
 	img		tag
 	frame	tag
-	
+
 	script	tag
 	);
 
@@ -33,12 +33,12 @@ sub new
 	{
 	my $class = shift;
 	my $base  = shift;
-	
+
 	my $self = new HTML::LinkExtor;
 	bless $self, $class;
-	
+
 	$self->{'_SimpleLinkExtor_base'} = $base;
-	
+
 	return $self;
 	}
 
@@ -53,12 +53,12 @@ sub AUTOLOAD
 	{
 	my $self = shift;
 	my $method = $AUTOLOAD;
-	
+
 	$method =~ s/.*:://;
 	print "AUTOLOAD: method is $method\n" if $DEBUG;
-	
+
 	return unless exists $AUTO_METHODS{$method};
-	
+
 	print "AUTOLOAD: calling _extract\n" if $DEBUG;
 	$self->_extract( $method );
 	}
@@ -66,7 +66,7 @@ sub AUTOLOAD
 sub _link_refs
 	{
 	my $self = shift;
-	
+
 	my @link_refs;
 	if( ref $self->{'_SimpleLinkExtor_links'} )
 		{
@@ -77,7 +77,7 @@ sub _link_refs
 		@link_refs = $self->SUPER::links();
 		$self->{'_SimpleLinkExtor_links'} = \@link_refs;
 		}
-	
+
 	# defined() so that an empty string means "do not resolve"
 	unless( defined $self->{'_SimpleLinkExtor_base'} )
 		{
@@ -91,11 +91,11 @@ sub _link_refs
 			$self->{'_SimpleLinkExtor_base'} = $link->[-1];
 			last;
 			}
-		
+
 		#remove the BASE HREF link - Good idea, bad idea?
 		#splice @link_refs, $count, 1, () if $found;
 		}
-	
+
 	$self->_add_base(\@link_refs) if $self->{'_SimpleLinkExtor_base'};
 
 	print "_link_refs: there are $#link_refs + 1 links\n" if $DEBUG;
@@ -109,22 +109,22 @@ sub _extract
 
 	my $position  = $AUTO_METHODS{$method} eq 'tag' ? 0 : 1;
 	print "_extract: Position is $position\n" if $DEBUG;
-	
-	my @links = map  { $$_[2] } 
-	            grep { $_->[$position] eq $method } 
+
+	my @links = map  { $$_[2] }
+	            grep { $_->[$position] eq $method }
 	            $self->_link_refs;
-	            
+
 	print "_extract: There are $#links + 1 links\n" if $DEBUG;
-	return @links;	
+	return @links;
 	}
-	
+
 sub _add_base
 	{
 	my $self      = shift;
 	my $array_ref = shift;
-	
+
 	my $base      = $self->{'_SimpleLinkExtor_base'};
-	
+
 	foreach ( 0 .. $#{$array_ref} )
 		{
 		my $url = URI->new( ${$$array_ref[$_]}[-1] );
@@ -132,7 +132,7 @@ sub _add_base
 		${$$array_ref[$_]}[-1] = $url->abs($base);
 		}
 	}
-	
+
 1;
 __END__
 =head1 NAME
@@ -142,12 +142,12 @@ HTML::SimpleLinkExtor - Extract links from HTML
 =head1 SYNOPSIS
 
 	use HTML::SimpleLinkExtor;
-	
+
 	my $extor = HTML::SimpleLinkExtor->new();
 	$extor->parse_file($filename);
 	#--or--
 	$extor->parse($html);
-	
+
 	#extract all of the links
 	@all_links   = $extor->links;
 
@@ -173,7 +173,7 @@ This is a simple HTML link extractor designed for the person who
 does not want to deal with the intricacies of C<HTML::Parser> or
 the de-referencing needed to get links out of C<HTML::LinkExtor>.
 
-You can extract all the links or some of the links (based on the 
+You can extract all the links or some of the links (based on the
 HTML tag name or attribute name). If a E<lt>BASE HREFE<gt> tag
 is found, all of the relative URLs will be resolved according to
 that reference.
@@ -186,13 +186,13 @@ or XHTML may cause problems.
 
 =item $extor = HTML::SimpleLinkExtor->new()
 
-Create the link extractor object. 
+Create the link extractor object.
 
 =item $extor = HTML::SimpleLinkExtor->new($base)
 
 Create the link extractor object and resolve the relative URLs
-accoridng to the supplied base URL. The supplied base URL 
-overrides any other base URL found in the HTML. 
+accoridng to the supplied base URL. The supplied base URL
+overrides any other base URL found in the HTML.
 
 =item $extor = HTML::SimpleLinkExtor->new('')
 
@@ -258,7 +258,7 @@ Return the link from the SCRIPT tag's SRC attribute
 
 =head1 TO DO
 
-This module doesn't handle all of the HTML tags that might 
+This module doesn't handle all of the HTML tags that might
 have links.  If someone wants those, I'll add them, or you
 can edit %AUTO_METHODS in the source.
 
@@ -273,7 +273,7 @@ This source is part of a SourceForge project which always has the
 latest sources in CVS, as well as all of the previous releases.
 
 	http://sourceforge.net/projects/brian-d-foy/
-	
+
 If, for some reason, I disappear from the world, one of the other
 members of the project can shepherd this module appropriately.
 
