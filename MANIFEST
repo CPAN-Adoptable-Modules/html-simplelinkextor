@@ -1,11 +1,11 @@
-# $Id$
 Changes
-MANIFEST
 Makefile.PL
+MANIFEST
+META.yml
+README
 SimpleLinkExtor.pm
-META.yml                                 Module meta-data (added by MakeMaker)
-t/example.html
 t/compile.t
-t/pod.t
+t/example.html
 t/parse.t
+t/pod.t
 t/test_manifest

@@ -20,8 +20,8 @@ WriteMakefile(
     'NAME'         => 'HTML::SimpleLinkExtor',
     'VERSION_FROM' => 'SimpleLinkExtor.pm',
     'PREREQ_PM'    => { 
-    	'HTML::LinkExtor' => 1.28,
-		'URI'             => 1.09,
+    	'HTML::LinkExtor' => '1.28',
+		'URI'             => '1.09',
 		},
 		
 	'MAN3PODS'     => {
