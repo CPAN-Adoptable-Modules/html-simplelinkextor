@@ -260,13 +260,32 @@ This module doesn't handle all of the HTML tags that might
 have links.  If someone wants those, I'll add them, or you
 can edit %AUTO_METHODS in the source.
 
-=head1 THANKS TO
+=head1 CREDITS
 
 Will Crain who identified a problem with IMG links that had
 a USEMAP attribute.
 
-=head1 AUTHOR
+=head1 SOURCE AVAILABILITY
 
-brian d foy <bdfoy@cpan.org>
+This source is part of a SourceForge project which always has the
+latest sources in CVS, as well as all of the previous releases.
+
+	http://sourceforge.net/projects/brian-d-foy/
+	
+If, for some reason, I disappear from the world, one of the other
+members of the project can shepherd this module appropriately.
+
+=head1 AUTHORS
+
+brian d foy, E<lt>bdfoy@cpan.orgE<gt>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2004 brian d foy.  All rights reserved.
+
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
 
 =cut
+
+1;

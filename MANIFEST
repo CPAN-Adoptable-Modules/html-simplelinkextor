@@ -3,5 +3,9 @@ Changes
 MANIFEST
 Makefile.PL
 SimpleLinkExtor.pm
-test.pl
-example.html
+META.yml                                 Module meta-data (added by MakeMaker)
+t/example.html
+t/compile.t
+t/pod.t
+t/parse.t
+t/test_manifest
