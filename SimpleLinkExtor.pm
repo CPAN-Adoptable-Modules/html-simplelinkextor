@@ -16,15 +16,17 @@ $DEBUG   = 0;
 
 %AUTO_METHODS = qw(
     background attribute
-	href   attribute
-	src    attribute
+	href	attribute
+	src		attribute
 
-	a       tag
+	a		tag
 	area	tag
 	base    tag
 	body    tag
-	img	tag
+	img		tag
 	frame	tag
+	
+	script	tag
 	);
 
 sub new
@@ -246,12 +248,17 @@ tag.
 
 Return the link from the BODY tag's BACKGROUND attribute.
 
+=item $extor->script
+
+Return the link from the SCRIPT tag's SRC attribute
+
 =back
 
 =head1 TO DO
 
 This module doesn't handle all of the HTML tags that might 
-have links.  If someone wants those, I'll add them.
+have links.  If someone wants those, I'll add them, or you
+can edit %AUTO_METHODS in the source.
 
 =head1 THANKS TO
 
