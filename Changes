@@ -1,4 +1,9 @@
+# $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
+
+0.72 Fri Nov  9 04:07:17 EST 2001
+	- fixed bug with img tags that contained a usemap attribute
+	(identified by Will Crain <crainw@hotmail.com>)
 
 0.71  Wed Jan 24 14:34:10 EST 2001
 	- minor doc fixes
