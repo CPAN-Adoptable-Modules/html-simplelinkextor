@@ -1,6 +1,10 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.06 - Tue Jun 15 13:32:38 2004
+* added test for SCRIPT tag
+* noted in docs that HTML::LinkExtor handles the parsing, not me
+
 1.05 - Tue Jun 15 13:08:22 2004
 * added support to extract references from SCRIPT tags
 * cleaned up the dist to use Test::More, and other housekeeping things
