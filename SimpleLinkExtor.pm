@@ -1,3 +1,4 @@
+# $Id$
 package HTML::SimpleLinkExtor;
 use strict;
 
@@ -8,7 +9,7 @@ use AutoLoader;
 use HTML::LinkExtor;
 use URI;
 
-$VERSION = 0.71;
+$VERSION = 0.72;
 $DEBUG   = 0;
 
 @ISA = qw(HTML::LinkExtor);
@@ -42,8 +43,8 @@ sub new
 sub links
 	{
 	my $self = shift;
-	
-	return map { $$_[-1] } $self->_link_refs;
+
+	return map { $$_[2] } $self->_link_refs;
 	}
 
 sub AUTOLOAD
@@ -107,7 +108,7 @@ sub _extract
 	my $position  = $AUTO_METHODS{$method} eq 'tag' ? 0 : 1;
 	print "_extract: Position is $position\n" if $DEBUG;
 	
-	my @links = map  { $$_[-1] } 
+	my @links = map  { $$_[2] } 
 	            grep { $_->[$position] eq $method } 
 	            $self->_link_refs;
 	            
@@ -252,8 +253,13 @@ Return the link from the BODY tag's BACKGROUND attribute.
 This module doesn't handle all of the HTML tags that might 
 have links.  If someone wants those, I'll add them.
 
+=head1 THANKS TO
+
+Will Crain who identified a problem with IMG links that had
+a USEMAP attribute.
+
 =head1 AUTHOR
 
-brian d foy <comdog@panix.com>
+brian d foy <bdfoy@cpan.org>
 
 =cut
