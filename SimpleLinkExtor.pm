@@ -178,7 +178,9 @@ HTML tag name or attribute name). If a E<lt>BASE HREFE<gt> tag
 is found, all of the relative URLs will be resolved according to
 that reference.
 
-This module is simply a subclass around C<HTML::LinkExtor>.
+This module is simply a subclass around C<HTML::LinkExtor>, so
+it can only parse what that module can handle.  Invalid HTML
+or XHTML may cause problems.
 
 =over
 

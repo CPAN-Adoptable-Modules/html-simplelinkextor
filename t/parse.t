@@ -1,6 +1,6 @@
 # $Id$
 
-use Test::More tests => 12;
+use Test::More tests => 13;
 
 use_ok( "HTML::SimpleLinkExtor" );
 
@@ -15,13 +15,13 @@ $test++;
 $p->parse_file('t/example.html');
 my @links = $p->links;
 
-is( scalar @links, 22, "Found the right number of links" );
+is( scalar @links, 23, "Found the right number of links" );
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 my @test = qw(
 	href	     14
 	background    1
-	src           7
+	src           8
 	
 	base          1
 	body          1
@@ -29,6 +29,7 @@ my @test = qw(
 	img           4
 	area          6
 	frame         3
+	script        1
 	);
 	
 while ( my $method = shift @test )
