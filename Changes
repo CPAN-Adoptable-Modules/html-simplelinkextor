@@ -1,6 +1,10 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.09 - Fri Mar 11 22:52:40 2005
+	* Added POD coverage tests, fixed issues
+	* No code changes: no need to upgrade
+
 1.08 - Tue Sep  7 20:45:10 2004
 * cleaned up distribution
 * no need to upgrade
