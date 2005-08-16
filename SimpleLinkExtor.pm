@@ -38,9 +38,12 @@ sub new
 	bless $self, $class;
 
 	$self->{'_SimpleLinkExtor_base'} = $base;
-
+	$self->_init_links;
+	
 	return $self;
 	}
+	
+sub clear_links { $_[0]->_init_links }
 
 sub links
 	{
@@ -63,11 +66,32 @@ sub AUTOLOAD
 	$self->_extract( $method );
 	}
 
+sub _init_links
+	{
+	my $self  = shift;
+	my $links = shift;
+		
+	do { 
+		delete $self->{'_SimpleLinkExtor_links'};
+		return
+		} unless UNIVERSAL::isa( $links, 'ARRAY' );
+	
+	$self->{'_SimpleLinkExtor_links'} = $links;
+	
+	$self;
+	}
+
 sub _link_refs
 	{
 	my $self = shift;
 
 	my @link_refs;
+	# XXX: this is a bad way to do this. I should check if the
+	# value is a reference. If I want to reset the links, for
+	# instance, I can't just set it to [] because it then goes
+	# through this branch. In _init_links I have to use a delete
+	# which I really don't like. I don't have time to rewrite this
+	# right now though --brian, 20050816
 	if( ref $self->{'_SimpleLinkExtor_links'} )
 		{
 		@link_refs = @{$self->{'_SimpleLinkExtor_links'}};
@@ -75,7 +99,7 @@ sub _link_refs
 	else
 		{
 		@link_refs = $self->SUPER::links();
-		$self->{'_SimpleLinkExtor_links'} = \@link_refs;
+		$self->_init_links( \@link_refs );
 		}
 
 	# defined() so that an empty string means "do not resolve"
@@ -148,6 +172,10 @@ HTML::SimpleLinkExtor - Extract links from HTML
 	#--or--
 	$extor->parse($html);
 
+	$extor->parse_file($other_file); # get more links
+
+	$extor->clear_links; # reset the link list
+	
 	#extract all of the links
 	@all_links   = $extor->links;
 
@@ -182,6 +210,10 @@ This module is simply a subclass around C<HTML::LinkExtor>, so
 it can only parse what that module can handle.  Invalid HTML
 or XHTML may cause problems.
 
+If you parse multiple files, the link list grows and contains the
+aggregate list of links for all of the files parsed. If you want
+to reset the link list between files, use the clear_links method.
+
 =over
 
 =item $extor = HTML::SimpleLinkExtor->new()
@@ -206,6 +238,11 @@ Parse the file for links.
 =item $extor->parse( $data )
 
 Parse the HTML in C<$data>.
+
+=item $extor->clear_links
+
+Clear the link list. This way, you can use the same parser for
+another file.
 
 =item $extor->links
 
