@@ -25,6 +25,7 @@ $DEBUG   = 0;
 	body    tag
 	img		tag
 	frame	tag
+	iframe  tag
 
 	script	tag
 	);
@@ -51,6 +52,8 @@ sub links
 
 	return map { $$_[2] } $self->_link_refs;
 	}
+
+sub frames { ( $_[0]->frame, $_[0]->iframe ) }
 
 sub AUTOLOAD
 	{
@@ -257,6 +260,15 @@ IMG.
 
 Return a list of all the links from all the SRC attributes of
 the FRAME.
+
+=item $extor->iframe
+
+Return a list of all the links from all the SRC attributes of
+the IFRAME.
+
+=item $extor->frames
+
+Returns the combined list from frame and iframe.
 
 =item $extor->src
 
