@@ -7,7 +7,7 @@ our %tags = qw(
 	base          1
 	body          1
 	a             7
-	img           4
+	img           5
 	area          6
 	frame         3
 	script        1
@@ -17,7 +17,7 @@ our %tags = qw(
 our %attr = qw(
 	href	     14
 	background    1
-	src           9
+	src          10
 	);
 	
 our $total_links = 0;
@@ -26,7 +26,7 @@ foreach my $attr ( keys %attr ) { $total_links += $attr{$attr} };
 ###############################################################
 ###############################################################
 
-use Test::More tests => keys( %attr ) + keys( %tags ) + 6;
+use Test::More tests => keys( %attr ) + keys( %tags ) + 7;
 
 use_ok( "HTML::SimpleLinkExtor" );
 
@@ -44,6 +44,12 @@ $p->parse_file( $file );
 my @links = $p->links;
 
 is( scalar @links, $total_links, "Found the right number of links" );
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+my @img = $p->img;
+
+like( $img[-1], qr/^http/, "Gecko link is relative" );
+
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 foreach my $hash ( \%attr, \%tags )

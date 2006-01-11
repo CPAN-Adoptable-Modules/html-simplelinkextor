@@ -151,12 +151,18 @@ sub _add_base
 	my $array_ref = shift;
 
 	my $base      = $self->{'_SimpleLinkExtor_base'};
-
-	foreach ( 0 .. $#{$array_ref} )
+	next unless $base;
+	
+	foreach my $tuple ( @$array_ref )
 		{
-		my $url = URI->new( ${$$array_ref[$_]}[-1] );
-		next unless ref $url;
-		${$$array_ref[$_]}[-1] = $url->abs($base);
+		foreach my $index ( 1 .. $#$tuple )
+			{
+			next unless exists $AUTO_METHODS{ $tuple->[$index] };
+			
+			my $url = URI->new( $tuple->[$index + 1] );
+			next unless ref $url;
+			$tuple->[$index + 1] = $url->abs($base);
+			}
 		}
 	}
 
