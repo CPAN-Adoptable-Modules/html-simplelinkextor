@@ -1,6 +1,12 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.12 - Wed Jan 11 00:51:33 2006
+	* rt.cpan.org: Ticket #16942: A bug in my URL resolution code
+	only resolved the last URL found in a tag. Now the code goes through
+	all the value and resolves each that it thinks should be a URL
+	* Everyone should upgrade
+
 1.11 - Mon Aug 22 22:44:18 2005
 	* added support for iframe src extraction
 	* no need to upgrade unless you need this feature
