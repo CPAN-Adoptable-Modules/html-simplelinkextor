@@ -6,6 +6,7 @@ use subs qw();
 use vars qw($VERSION @ISA %AUTO_METHODS $AUTOLOAD $DEBUG);
 
 use AutoLoader;
+use Carp qw(carp);
 use HTML::LinkExtor;
 use URI;
 
@@ -43,7 +44,55 @@ sub new
 	
 	return $self;
 	}
+
+sub DESTROY { 1 };
+
+sub add_attributes
+	{
+	my $self = shift;
+	my $attr = lc shift;
 	
+	$AUTO_METHODS{ $attr } = 'attribute';
+	}
+	
+sub add_tags
+	{
+	my $self = shift;
+	my $tag  = lc shift;
+	
+	$AUTO_METHODS{ $tag } = 'tag';
+	}
+
+sub remove_attributes
+	{
+	my $self = shift;
+	my $attr = lc shift;
+	
+	delete $AUTO_METHODS{ $attr };
+	}
+	
+sub remove_tags
+	{
+	my $self = shift;
+	my $tag  = lc shift;
+	
+	delete $AUTO_METHODS{ $tag };
+	}
+
+sub attribute_list
+	{
+	my $self = shift;
+	
+	grep { $AUTO_METHODS{ $_ } eq 'attribute' } keys %AUTO_METHODS;
+	}
+	
+sub tag_list
+	{
+	my $self = shift;
+	
+	grep { $AUTO_METHODS{ $_ } eq 'tag' } keys %AUTO_METHODS;
+	}
+
 sub clear_links { $_[0]->_init_links }
 
 sub links
@@ -61,11 +110,15 @@ sub AUTOLOAD
 	my $method = $AUTOLOAD;
 
 	$method =~ s/.*:://;
-	print "AUTOLOAD: method is $method\n" if $DEBUG;
+	print STDERR "AUTOLOAD: method is $method\n" if $DEBUG;
 
-	return unless exists $AUTO_METHODS{$method};
+	unless( exists $AUTO_METHODS{$method} )
+		{
+		carp __PACKAGE__ . ": method $method unknown";
+		return;
+		}
 
-	print "AUTOLOAD: calling _extract\n" if $DEBUG;
+	print STDERR "AUTOLOAD: calling _extract\n" if $DEBUG;
 	$self->_extract( $method );
 	}
 
@@ -206,22 +259,23 @@ HTML::SimpleLinkExtor - Extract links from HTML
 
 =head1 DESCRIPTION
 
-This is a simple HTML link extractor designed for the person who
-does not want to deal with the intricacies of C<HTML::Parser> or
-the de-referencing needed to get links out of C<HTML::LinkExtor>.
+This is a simple HTML link extractor designed for the person who does
+not want to deal with the intricacies of C<HTML::Parser> or the
+de-referencing needed to get links out of C<HTML::LinkExtor>.
 
-You can extract all the links or some of the links (based on the
-HTML tag name or attribute name). If a E<lt>BASE HREFE<gt> tag
-is found, all of the relative URLs will be resolved according to
-that reference.
+You can extract all the links or some of the links (based on the HTML
+tag name or attribute name). If a E<lt>BASE HREFE<gt> tag is found,
+all of the relative URLs will be resolved according to that reference.
 
-This module is simply a subclass around C<HTML::LinkExtor>, so
-it can only parse what that module can handle.  Invalid HTML
-or XHTML may cause problems.
+This module is simply a subclass around C<HTML::LinkExtor>, so it can
+only parse what that module can handle.  Invalid HTML or XHTML may
+cause problems.
 
 If you parse multiple files, the link list grows and contains the
-aggregate list of links for all of the files parsed. If you want
-to reset the link list between files, use the clear_links method.
+aggregate list of links for all of the files parsed. If you want to
+reset the link list between files, use the clear_links method.
+
+=head2 Class Methods
 
 =over
 
@@ -232,13 +286,57 @@ Create the link extractor object.
 =item $extor = HTML::SimpleLinkExtor->new($base)
 
 Create the link extractor object and resolve the relative URLs
-accoridng to the supplied base URL. The supplied base URL
-overrides any other base URL found in the HTML.
+accoridng to the supplied base URL. The supplied base URL overrides
+any other base URL found in the HTML.
 
 =item $extor = HTML::SimpleLinkExtor->new('')
 
 Create the link extractor object and do not resolve relative
 links.
+
+=item HTML::SimpleLinkExtor->add_tags( TAG [, TAG ] )
+
+C<HTML::SimpleLinkExtor> keeps an internal list of HTML tags (such as
+'a' and 'img') that have URLs as values. If you run into another tag
+that this module doesn't handle, please send it to me and I'll add it.
+Until then you can add that tag to the internal list. This affects
+the entire class, including previously created objects.
+
+=item HTML::SimpleLinkExtor->add_attributes( ATTR [, ATTR] )
+
+C<HTML::SimpleLinkExtor> keeps an internal list of HTML tag attributes
+(such as 'href' and 'src') that have URLs as values. If you run into
+another attribute that this module doesn't handle, please send it to
+me and I'll add it. Until then you can add that attribute to the
+internal list. This affects the entire class, including previously
+created objects.
+
+=item HTML::SimpleLinkExtor->remove_tags( TAG [, TAG ] )
+
+Take tags out of the internal list that C<HTML::SimpleLinkExtor> uses
+to extract URLs. This affects the entire class, including previously
+created objects.
+
+=item HTML::SimpleLinkExtor->remove_attributes( ATTR [, ATTR] )
+
+Takes attributes out of the internal list that
+C<HTML::SimpleLinkExtor> uses to extract URLs. This affects the entire
+class, including previously created objects.
+
+=item HTML::SimpleLinkExtor->attribute_list
+
+Returns a list of the attributes C<HTML::SimpleLinkExtor> pays
+attention to.
+
+=item HTML::SimpleLinkExtor->tag_list
+
+Returns a list of the tags C<HTML::SimpleLinkExtor> pays attention to.
+
+=back
+
+=head2 Object methods
+
+=over 4
 
 =item $extor->parse_file( $filename )
 
@@ -338,7 +436,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2004-2005 brian d foy.  All rights reserved.
+Copyright (c) 2004-2006 brian d foy.  All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

@@ -8,4 +8,6 @@ t/compile.t
 t/example.html
 t/parse.t
 t/pod.t
+t/pod_coverage.t
+t/tags.t
 t/test_manifest
