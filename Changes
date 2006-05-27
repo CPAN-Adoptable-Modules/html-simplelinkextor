@@ -1,6 +1,12 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.13 - Sat May 27 02:21:37 2006
+	* Added functions to add tags and attributes to the list that
+	the module will parse. You don't have to fool with the internal
+	hash or email me to make changes anymore!
+	* Unless you want this feature, you don't need to upgrade.
+
 1.12 - Wed Jan 11 00:51:33 2006
 	* rt.cpan.org: Ticket #16942: A bug in my URL resolution code
 	only resolved the last URL found in a tag. Now the code goes through
