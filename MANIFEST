@@ -1,8 +1,10 @@
 Changes
+LICENSE
 Makefile.PL
 MANIFEST
 META.yml
 README
+scripts/linktractor
 SimpleLinkExtor.pm
 t/compile.t
 t/example.html
