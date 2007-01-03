@@ -1,6 +1,12 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.14 - Tue Jan  2 22:44:41 2007
+	* Added a command line tool, linktractor, to extract the links
+	from the input files, stdin, or a file of the net.
+	* Updated license info. Use this under the terms of Perl itself.
+	* Happy New Year!
+
 1.13 - Sat May 27 02:21:37 2006
 	* Added functions to add tags and attributes to the list that
 	the module will parse. You don't have to fool with the internal
