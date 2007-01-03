@@ -9,11 +9,18 @@ WriteMakefile(
     'PREREQ_PM'    => { 
     	'HTML::LinkExtor' => '1.28',
 		'URI'             => '1.09',
+		'LWP::Simple'     => '0',
 		},
 		
 	'MAN3PODS'     => {
 		'SimpleLinkExtor.pm' => '$(INST_MAN3DIR)/HTML::SimpleLinkExtor.3',
 		},
+
+	'MAN1PODS'     => {
+		'scripts/linktractor' => '$(INST_MAN3DIR)/linktractor.1',
+		},
+
+	'EXE_FILES'    => [ 'scripts/linktractor' ],
 	
 	'dist'         => {
 		'COMPRESS'        => 'gzip -9f',
