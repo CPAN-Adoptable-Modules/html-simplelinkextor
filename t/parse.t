@@ -26,10 +26,12 @@ foreach my $attr ( keys %attr ) { $total_links += $attr{$attr} };
 ###############################################################
 ###############################################################
 
-use Test::More tests => keys( %attr ) + keys( %tags ) + 7;
+use File::Spec;
+use Test::More tests => keys( %attr ) + keys( %tags ) + 7 + 3;
 
 use_ok( "HTML::SimpleLinkExtor" );
 
+{
 my $file = 't/example.html';
 ok( -e $file, "Example file is there" );
 
@@ -77,5 +79,24 @@ $p->clear_links;
 @links = $p->links;
 
 is( scalar @links, 0, "Found the no links after clear_links" );
+}
 
+###############################################################
+###############################################################
+{
+my $url = 'file://' . File::Spec->rel2abs( 't/example.html' );
+#print STDERR "url is $url";
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+$test++;
+my $p = HTML::SimpleLinkExtor->new;
+ok( ref $p, "Made parser object" );
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+$test++;
+my $rc = $p->parse_url( $url );
+ok( $rc, 'parse_url returns true value' );
+my @links = $p->links;
+
+is( scalar @links, $total_links, "Found the right number of links" );
+}

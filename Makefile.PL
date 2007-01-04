@@ -17,7 +17,7 @@ WriteMakefile(
 		},
 
 	'MAN1PODS'     => {
-		'scripts/linktractor' => '$(INST_MAN3DIR)/linktractor.1',
+		'scripts/linktractor' => '$(INST_MAN1DIR)/linktractor.1',
 		},
 
 	'EXE_FILES'    => [ 'scripts/linktractor' ],
