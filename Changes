@@ -1,6 +1,10 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.15 - Thu Jan  4 11:37:02 2007
+	* added parse_url method to fetch remote data for link extraction
+	* fixed man page destination for linktractor
+
 1.14 - Tue Jan  2 22:44:41 2007
 	* Added a command line tool, linktractor, to extract the links
 	from the input files, stdin, or a file of the net.
