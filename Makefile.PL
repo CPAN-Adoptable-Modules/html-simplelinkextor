@@ -6,6 +6,7 @@ eval "use Test::Manifest 1.14";
 WriteMakefile(
     'NAME'         => 'HTML::SimpleLinkExtor',
     'VERSION_FROM' => 'SimpleLinkExtor.pm',
+	'LICENSE'       => 'perl',
     'PREREQ_PM'    => { 
     	'HTML::LinkExtor' => '1.28',
 		'URI'             => '1.09',
