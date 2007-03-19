@@ -20,7 +20,7 @@ WriteMakefile(
 		},
 		
 	'MAN3PODS'     => {
-		'SimpleLinkExtor.pm' => '$(INST_MAN3DIR)/HTML::SimpleLinkExtor.3',
+		'lib/SimpleLinkExtor.pm' => '$(INST_MAN3DIR)/HTML::SimpleLinkExtor.3',
 		},
 
 	'MAN1PODS'     => {
