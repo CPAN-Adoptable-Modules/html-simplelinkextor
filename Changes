@@ -1,6 +1,10 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.17 - Sun Mar 18 22:32:01 2007
+	* Cleaning up the dist a bit
+	* Now takes input from the web with parse_url()
+
 1.16 - Tue Jan  9 22:07:34 2007
 	* updated copyright and license info
 	* no code changes, so no need to upgrade
