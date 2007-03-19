@@ -454,7 +454,7 @@ members of the project can shepherd this module appropriately.
 
 brian d foy, C<< <bdfoy@cpan.org> >>
 
-=head1 COPYRIGHT AND LICENS
+=head1 COPYRIGHT AND LICENSE
 
 Copyright (c) 2004-2007 brian d foy.  All rights reserved.
 

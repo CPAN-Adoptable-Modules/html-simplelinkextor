@@ -5,11 +5,15 @@ eval "use Test::Manifest 1.14";
    
 WriteMakefile(
     'NAME'         => 'HTML::SimpleLinkExtor',
-    'VERSION_FROM' => 'SimpleLinkExtor.pm',
-	'LICENSE'       => 'perl',
+    'VERSION_FROM' => 'lib/SimpleLinkExtor.pm',
+	'LICENSE'      => 'perl',
 	'AUTHOR'       => 'brian d foy <bdfoy@cpan.org>',
 	
-    'PREREQ_PM'    => { 
+ 	'PM'           => {
+		'lib/SimpleLinkExtor.pm'=> '$(INST_LIBDIR)/SimpleLinkExtor.pm',
+		},
+
+   'PREREQ_PM'     => { 
     	'HTML::LinkExtor' => '1.28',
 		'URI'             => '1.09',
 		'LWP::Simple'     => '0',

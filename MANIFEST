@@ -5,7 +5,7 @@ Makefile.PL
 MANIFEST
 README
 scripts/linktractor
-SimpleLinkExtor.pm
+lib/SimpleLinkExtor.pm
 t/compile.t
 t/example.html
 t/parse.t
