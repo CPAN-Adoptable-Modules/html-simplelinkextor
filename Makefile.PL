@@ -7,6 +7,8 @@ WriteMakefile(
     'NAME'         => 'HTML::SimpleLinkExtor',
     'VERSION_FROM' => 'SimpleLinkExtor.pm',
 	'LICENSE'       => 'perl',
+	'AUTHOR'       => 'brian d foy <bdfoy@cpan.org>',
+	
     'PREREQ_PM'    => { 
     	'HTML::LinkExtor' => '1.28',
 		'URI'             => '1.09',
