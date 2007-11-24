@@ -1,6 +1,10 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.18 - Sat Nov 24 04:44:09 2007
+	* Cleanups for the move from CVS to SVN
+	* No need to upgrade
+
 1.17 - Sun Mar 18 22:32:01 2007
 	* Cleaning up the dist a bit
 	* Now takes input from the web with parse_url()
