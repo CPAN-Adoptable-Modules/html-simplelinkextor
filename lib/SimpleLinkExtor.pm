@@ -10,8 +10,7 @@ use Carp qw(carp);
 use HTML::LinkExtor;
 use URI;
 
-$VERSION = 1.17;
-#sprintf "%d.%02d", q$Revision$ =~ m/ (\d+) \. (\d+) /xg;
+$VERSION = 1.18;
 
 $DEBUG   = 0;
 

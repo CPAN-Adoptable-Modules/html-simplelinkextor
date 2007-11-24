@@ -1,10 +1,14 @@
 # $Id$
 use ExtUtils::MakeMaker;
 
+require 5.006;
+
 eval "use Test::Manifest 1.14";   
    
-WriteMakefile(
+WriteMakefile
+	(
     'NAME'         => 'HTML::SimpleLinkExtor',
+	'ABSTRACT'     => 'Extract links from HTML',
     'VERSION_FROM' => 'lib/SimpleLinkExtor.pm',
 	'LICENSE'      => 'perl',
 	'AUTHOR'       => 'brian d foy <bdfoy@cpan.org>',
@@ -35,5 +39,4 @@ WriteMakefile(
 		},
 
     clean  => { FILES    => q|HTML-SimpleLinkExtor-*| },
-
-);
+	);
