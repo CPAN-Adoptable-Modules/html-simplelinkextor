@@ -2,6 +2,9 @@
 package HTML::SimpleLinkExtor;
 use strict;
 
+use warnings;
+no warnings;
+
 use subs qw();
 use vars qw($VERSION @ISA %AUTO_METHODS $AUTOLOAD $DEBUG);
 
@@ -10,7 +13,7 @@ use Carp qw(carp);
 use HTML::LinkExtor;
 use URI;
 
-$VERSION = 1.18;
+$VERSION = 1.19;
 
 $DEBUG   = 0;
 
@@ -32,78 +35,8 @@ $DEBUG   = 0;
 	script	tag
 	);
 
-sub new
-	{
-	my $class = shift;
-	my $base  = shift;
-
-	my $self = new HTML::LinkExtor;
-	bless $self, $class;
-
-	$self->{'_SimpleLinkExtor_base'} = $base;
-	$self->_init_links;
-	
-	return $self;
-	}
 
 sub DESTROY { 1 };
-
-sub add_attributes
-	{
-	my $self = shift;
-	my $attr = lc shift;
-	
-	$AUTO_METHODS{ $attr } = 'attribute';
-	}
-	
-sub add_tags
-	{
-	my $self = shift;
-	my $tag  = lc shift;
-	
-	$AUTO_METHODS{ $tag } = 'tag';
-	}
-
-sub remove_attributes
-	{
-	my $self = shift;
-	my $attr = lc shift;
-	
-	delete $AUTO_METHODS{ $attr };
-	}
-	
-sub remove_tags
-	{
-	my $self = shift;
-	my $tag  = lc shift;
-	
-	delete $AUTO_METHODS{ $tag };
-	}
-
-sub attribute_list
-	{
-	my $self = shift;
-	
-	grep { $AUTO_METHODS{ $_ } eq 'attribute' } keys %AUTO_METHODS;
-	}
-	
-sub tag_list
-	{
-	my $self = shift;
-	
-	grep { $AUTO_METHODS{ $_ } eq 'tag' } keys %AUTO_METHODS;
-	}
-
-sub clear_links { $_[0]->_init_links }
-
-sub links
-	{
-	my $self = shift;
-
-	return map { $$_[2] } $self->_link_refs;
-	}
-
-sub frames { ( $_[0]->frame, $_[0]->iframe ) }
 
 sub AUTOLOAD
 	{
@@ -220,22 +153,6 @@ sub _add_base
 		}
 	}
 
-sub parse_url
-	{
-	my $self = shift;
-	my $url  = shift;
-	
-	require LWP::Simple;
-	
-	my $data = LWP::Simple::get( $url );
-	
-	return unless defined $data;
-	
-	$self->parse( $data );
-	}
-	
-1;
-__END__
 =head1 NAME
 
 HTML::SimpleLinkExtor - Extract links from HTML
@@ -272,6 +189,8 @@ HTML::SimpleLinkExtor - Extract links from HTML
 	@body_bg     = $extor->body;
 	@background  = $extor->background;
 
+	@links       = $extor->scheme( 'http' );
+	
 =head1 DESCRIPTION
 
 This is a simple HTML link extractor designed for the person who does
@@ -309,6 +228,22 @@ any other base URL found in the HTML.
 Create the link extractor object and do not resolve relative
 links.
 
+=cut
+
+sub new
+	{
+	my $class = shift;
+	my $base  = shift;
+
+	my $self = new HTML::LinkExtor;
+	bless $self, $class;
+
+	$self->{'_SimpleLinkExtor_base'} = $base;
+	$self->_init_links;
+	
+	return $self;
+	}
+
 =item HTML::SimpleLinkExtor->add_tags( TAG [, TAG ] )
 
 C<HTML::SimpleLinkExtor> keeps an internal list of HTML tags (such as
@@ -316,6 +251,16 @@ C<HTML::SimpleLinkExtor> keeps an internal list of HTML tags (such as
 that this module doesn't handle, please send it to me and I'll add it.
 Until then you can add that tag to the internal list. This affects
 the entire class, including previously created objects.
+
+=cut
+
+sub add_tags
+	{
+	my $self = shift;
+	my $tag  = lc shift;
+	
+	$AUTO_METHODS{ $tag } = 'tag';
+	}
 
 =item HTML::SimpleLinkExtor->add_attributes( ATTR [, ATTR] )
 
@@ -326,11 +271,31 @@ me and I'll add it. Until then you can add that attribute to the
 internal list. This affects the entire class, including previously
 created objects.
 
+=cut
+
+sub add_attributes
+	{
+	my $self = shift;
+	my $attr = lc shift;
+	
+	$AUTO_METHODS{ $attr } = 'attribute';
+	}
+	
 =item HTML::SimpleLinkExtor->remove_tags( TAG [, TAG ] )
 
 Take tags out of the internal list that C<HTML::SimpleLinkExtor> uses
 to extract URLs. This affects the entire class, including previously
 created objects.
+
+=cut
+
+sub remove_tags
+	{
+	my $self = shift;
+	my $tag  = lc shift;
+	
+	delete $AUTO_METHODS{ $tag };
+	}
 
 =item HTML::SimpleLinkExtor->remove_attributes( ATTR [, ATTR] )
 
@@ -338,10 +303,29 @@ Takes attributes out of the internal list that
 C<HTML::SimpleLinkExtor> uses to extract URLs. This affects the entire
 class, including previously created objects.
 
+=cut
+
+sub remove_attributes
+	{
+	my $self = shift;
+	my $attr = lc shift;
+	
+	delete $AUTO_METHODS{ $attr };
+	}
+
 =item HTML::SimpleLinkExtor->attribute_list
 
 Returns a list of the attributes C<HTML::SimpleLinkExtor> pays
 attention to.
+
+=cut
+
+sub attribute_list
+	{
+	my $self = shift;
+	
+	grep { $AUTO_METHODS{ $_ } eq 'attribute' } keys %AUTO_METHODS;
+	}
 
 =item HTML::SimpleLinkExtor->tag_list
 
@@ -349,40 +333,87 @@ Returns a list of the tags C<HTML::SimpleLinkExtor> pays attention to.
 
 =back
 
+=cut
+
+sub tag_list
+	{
+	my $self = shift;
+	
+	grep { $AUTO_METHODS{ $_ } eq 'tag' } keys %AUTO_METHODS;
+	}
+
 =head2 Object methods
 
 =over 4
 
 =item $extor->parse_file( $filename )
 
-Parse the file for links.
+Parse the file for links. Inherited from C<HTML::Parser>.
 
-=item $extor->parse_url( $url )
+=cut
+
+
+=item $extor->parse_url( $url [, $ua] )
 
 Fetch URL and parse its content for links.
 
+=cut
+
+sub parse_url
+	{
+	my $self = shift;
+	my $url  = shift;
+	
+	require LWP::Simple;
+	
+	my $data = LWP::Simple::get( $url );
+	
+	return unless defined $data;
+	
+	$self->parse( $data );
+	}
+
 =item $extor->parse( $data )
 
-Parse the HTML in C<$data>.
+Parse the HTML in C<$data>. Inherited from C<HTML::Parser>.
 
 =item $extor->clear_links
 
 Clear the link list. This way, you can use the same parser for
 another file.
 
+=cut
+
+sub clear_links { $_[0]->_init_links }
+
 =item $extor->links
 
 Return a list of the links.
+
+=cut
+
+sub links
+	{
+	my $self = shift;
+
+	return map { $$_[2] } $self->_link_refs;
+	}
 
 =item $extor->img
 
 Return a list of the links from all the SRC attributes of the
 IMG.
 
+=cut
+
 =item $extor->frame
 
 Return a list of all the links from all the SRC attributes of
 the FRAME.
+
+=cut
+
+sub frames { ( $_[0]->frame, $_[0]->iframe ) }
 
 =item $extor->iframe
 
@@ -426,6 +457,88 @@ Return the link from the BODY tag's BACKGROUND attribute.
 
 Return the link from the SCRIPT tag's SRC attribute
 
+=item $extor->schemes( SCHEME, [ SCHEME, ... ] )
+
+Return the links that use any of SCHEME. These must be absolute URLs (which
+might include those converted to absolute URLs by specifying a
+base). SCHEME is case-insensitive. You can specify more than one
+scheme.
+
+In list context it returns the links. In scalar context it returns
+the count of the matching links.
+
+=cut
+
+sub schemes
+	{
+	my( $self, @schemes ) = @_;
+	
+	my %schemes;
+	
+	@schemes{@schemes} = lc @schemes;
+	
+	my @links = 
+		grep { 
+			my $scheme = eval { lc URI->new( $_ )->scheme };  
+			exists $schemes{ $scheme };
+			}
+		map { $$_[2] } 
+			$self->_link_refs;
+			
+	wantarray ? @links : scalar @links;
+	}
+
+=item $extor->absolute_links
+
+Returns the absolute URLs (which might include those converted to
+absolute URLs by specifying a base).
+
+In list context it returns the links. In scalar context it returns
+the count of the matching links.
+
+=cut	
+
+sub absolute_links
+	{
+	my $self = shift;
+		
+	my @links = 
+		grep { 
+			my $scheme = eval { lc URI->new( $_ )->scheme };  
+			length $scheme;
+			}
+		map { $$_[2] } 
+			$self->_link_refs;
+	
+	wantarray ? @links : scalar @links;
+	}
+	
+=item $extor->relative_links
+
+Returns the relatives URLs (which might exclude those converted to
+absolute URLs by specifying a base or having a base in the document).
+
+In list context it returns the links. In scalar context it returns
+the count of the matching links.
+
+
+=cut 
+
+sub relative_links
+	{
+	my $self = shift;
+		
+	my @links = 
+		grep { 
+			my $scheme = eval { URI->new( $_ )->scheme }; 
+			! defined $scheme;
+			}
+		map { $$_[2] } 
+			$self->_link_refs;
+	
+	wantarray ? @links : scalar @links;
+	}
+
 =back
 
 =head1 TO DO
@@ -442,7 +555,7 @@ a USEMAP attribute.
 =head1 SOURCE AVAILABILITY
 
 This source is part of a SourceForge project which always has the
-latest sources in CVS, as well as all of the previous releases.
+latest sources in SVN, as well as all of the previous releases.
 
 	http://sourceforge.net/projects/brian-d-foy/
 
@@ -463,3 +576,5 @@ it under the same terms as Perl itself.
 =cut
 
 1;
+
+__END__
