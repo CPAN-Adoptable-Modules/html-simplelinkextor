@@ -20,7 +20,7 @@ WriteMakefile
    'PREREQ_PM'     => { 
     	'HTML::LinkExtor' => '1.28',
 		'URI'             => '1.09',
-		'LWP::Simple'     => '0',
+		'LWP::UserAgent'  => '0',
 		},
 		
 	'MAN3PODS'     => {

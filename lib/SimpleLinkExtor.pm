@@ -11,11 +11,10 @@ use vars qw($VERSION @ISA %AUTO_METHODS $AUTOLOAD $DEBUG);
 use AutoLoader;
 use Carp qw(carp);
 use HTML::LinkExtor;
+use LWP::UserAgent;
 use URI;
 
-$VERSION = 1.19;
-
-$DEBUG   = 0;
+$VERSION = 1.20;
 
 @ISA = qw(HTML::LinkExtor);
 
@@ -44,7 +43,6 @@ sub AUTOLOAD
 	my $method = $AUTOLOAD;
 
 	$method =~ s/.*:://;
-	print STDERR "AUTOLOAD: method is $method\n" if $DEBUG;
 
 	unless( exists $AUTO_METHODS{$method} )
 		{
@@ -52,7 +50,6 @@ sub AUTOLOAD
 		return;
 		}
 
-	print STDERR "AUTOLOAD: calling _extract\n" if $DEBUG;
 	$self->_extract( $method );
 	}
 
@@ -122,13 +119,11 @@ sub _extract
 	my $method    = shift;
 
 	my $position  = $AUTO_METHODS{$method} eq 'tag' ? 0 : 1;
-	print "_extract: Position is $position\n" if $DEBUG;
 
 	my @links = map  { $$_[2] }
 	            grep { $_->[$position] eq $method }
 	            $self->_link_refs;
 
-	print "_extract: There are $#links + 1 links\n" if $DEBUG;
 	return @links;
 	}
 
@@ -239,10 +234,19 @@ sub new
 	bless $self, $class;
 
 	$self->{'_SimpleLinkExtor_base'} = $base;
+	$self->{'_ua'} = LWP::UserAgent->new;
 	$self->_init_links;
 	
 	return $self;
 	}
+
+=item HTML::SimpleLinkExtor->ua;
+
+Returns the internal user agent, an C<LWP::UserAgent> object.
+
+=cut
+
+sub ua { $_[0]->{_ua} }
 
 =item HTML::SimpleLinkExtor->add_tags( TAG [, TAG ] )
 
@@ -363,10 +367,8 @@ sub parse_url
 	{
 	my $self = shift;
 	my $url  = shift;
-	
-	require LWP::Simple;
-	
-	my $data = LWP::Simple::get( $url );
+		
+	my $data = $self->ua->get( $url )->content;
 	
 	return unless defined $data;
 	
