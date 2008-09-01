@@ -8,6 +8,8 @@ my $method = 'AUTOLOAD';
 
 use_ok( $class );
 
+$SIG{__WARN__} = sub { print STDERR @_ }; # workaround problem in Test::Output
+
 {
 no strict 'refs';
 ok( defined &{"${class}::$method"}, "$method is defined" );

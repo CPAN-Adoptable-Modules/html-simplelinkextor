@@ -1,7 +1,3 @@
-# $Id$
-
-###############################################################
-###############################################################
 BEGIN {
 our %tags = qw(	
 	base          1
@@ -23,29 +19,31 @@ our %attr = qw(
 our $total_links = 0;
 foreach my $attr ( keys %attr ) { $total_links += $attr{$attr} };
 }
-###############################################################
-###############################################################
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 use File::Spec;
-use Test::More tests => keys( %attr ) + keys( %tags ) + 7 + 6;
+use Test::More tests => keys( %attr ) + keys( %tags ) + 15;
 
 my $class = "HTML::SimpleLinkExtor";
 
 use_ok( $class );
 
 {
-my $file = 't/example.html';
-ok( -e $file, "Example file is there" );
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 my $extor = $class->new;
 isa_ok( $extor, $class );
 
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+{
+my $file = File::Spec->catfile( qw(t example.html) );
+ok( -e $file, "Example file is there" );
+
 $extor->parse_file( $file );
 
 my @links = $extor->links;
 is( scalar @links, $total_links, "Found the right number of links" );
+}
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 my @img = $extor->img;
@@ -64,29 +62,39 @@ foreach my $hash ( \%attr, \%tags )
 		}
 	}
 
+{
 my $frame      = scalar @{ [$extor->frame ] };
 my $iframe     = scalar @{ [$extor->iframe] };
 my $all_frames = scalar @{ [$extor->frames] };
 is( $all_frames, $frame + $iframe, "Combined frames count is right" );
+}
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 $extor->clear_links;
-@links = $extor->links;
 
+{
+my @links = $extor->links;
 is( scalar @links, 0, "Found the no links after clear_links" );
+}
+
 }
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # Try a good URL
 {
-my $url = 'file://' . File::Spec->rel2abs( 't/example.html' );
+my $file = File::Spec->rel2abs( 
+	File::Spec->catfile( qw( t example.html ) )
+	);
+ok( -e $file, "File [$file] is there" );
+
+my $url = "file://$file"; 
 
 my $extor = HTML::SimpleLinkExtor->new;
 isa_ok( $extor, $class );
 
 my $rc = $extor->parse_url( $url );
-ok( $rc, 'parse_url returns true value' );
+ok( $rc, "parse_url returns true value for [$url]" );
 
 my @links = $extor->links;
 is( scalar @links, $total_links, "Found the right number of links" );
@@ -95,13 +103,19 @@ is( scalar @links, $total_links, "Found the right number of links" );
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # Try a bad URL
 {
-my $url = 'file://' . File::Spec->rel2abs( 't/not_there.html' );
+my $file = File::Spec->rel2abs( 
+	File::Spec->catfile( qw( t not_there.html ) )
+	);
+
+ok( ! -e $file, "File [$file] is not there" );
+
+my $url = "file://$file"; 
 
 my $extor = HTML::SimpleLinkExtor->new;
 isa_ok( $extor, $class );
 
 my $rc = $extor->parse_url( $url );
-ok( ! $rc, 'parse_url returns false value' );
+ok( ! $rc, "parse_url returns false value for [$url]" );
 
 my @links = $extor->links;
 is( scalar @links, 0, "Found no links in bad URL" );
