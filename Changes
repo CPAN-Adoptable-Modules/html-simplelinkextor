@@ -1,6 +1,10 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.02 - Sun Aug 31 19:40:30 2008
+	* You can now interact with the user-agent through the ua()
+	method. Change the agent string or whatever you like.
+
 1.19 - Fri Dec  7 01:32:15 2007
 	* RT #31160: added a schemes() method to extract links by their
 	scheme, and absolute_links() and relative_links() to extract
