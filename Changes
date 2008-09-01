@@ -2,8 +2,6 @@
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
 1.21 - Sun Aug 31 19:45:20 2008
-
-1.02 - Sun Aug 31 19:40:30 2008
 	* You can now interact with the user-agent through the ua()
 	method. Change the agent string or whatever you like.
 
