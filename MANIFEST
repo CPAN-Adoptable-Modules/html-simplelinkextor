@@ -7,6 +7,7 @@ MANIFEST
 README
 scripts/linktractor
 t/absolute_links.t
+t/autoload.t
 t/compile.t
 t/example.html
 t/example2.html

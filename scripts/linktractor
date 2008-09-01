@@ -6,22 +6,15 @@ use HTML::SimpleLinkExtor;
 
 my $extor = HTML::SimpleLinkExtor->new( defined $b ? $b : () );
 
-my $html = do { 
-	if( defined $f )
-		{
-		require LWP::Simple;
-		LWP::Simple::get( $f );
-		}
-	else 
-		{ 
-		local $/; <> 
-		}
-	
-	};
-
-unless( defined $html ) { die "No input!\n"; }
-
-$extor->parse( $html );
+if( defined $f )
+	{
+	$extor->parse_url( $f );
+	}
+else 
+	{ 
+	my $html = do { local $/; <STDIN> };
+	$extor->parse( $html );	
+	}
 
 {
 local $, = "\n";

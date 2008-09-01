@@ -6,7 +6,7 @@ use warnings;
 no warnings;
 
 use subs qw();
-use vars qw($VERSION @ISA %AUTO_METHODS $AUTOLOAD $DEBUG);
+use vars qw($VERSION @ISA %AUTO_METHODS $AUTOLOAD );
 
 use AutoLoader;
 use Carp qw(carp);
@@ -53,6 +53,28 @@ sub AUTOLOAD
 	$self->_extract( $method );
 	}
 
+sub can
+	{
+	my( $self, @methods ) = @_;
+
+	foreach my $method ( @methods )
+		{
+		return 0 unless $self->_can( $method );
+		}
+
+	return 1;
+	}
+	
+sub _can
+	{
+	no strict 'refs';
+
+	return 1 if exists $AUTO_METHODS{ $_[1] };
+	return 1 if defined &{"$_[1]"};
+	
+	return 0;
+	}
+	
 sub _init_links
 	{
 	my $self  = shift;
@@ -107,9 +129,8 @@ sub _link_refs
 		#splice @link_refs, $count, 1, () if $found;
 		}
 
-	$self->_add_base(\@link_refs) if $self->{'_SimpleLinkExtor_base'};
+	$self->_add_base(\@link_refs);
 
-	print "_link_refs: there are $#link_refs + 1 links\n" if $DEBUG;
 	return @link_refs;
 	}
 
@@ -133,7 +154,7 @@ sub _add_base
 	my $array_ref = shift;
 
 	my $base      = $self->{'_SimpleLinkExtor_base'};
-	next unless $base;
+	return unless $base;
 	
 	foreach my $tuple ( @$array_ref )
 		{
@@ -277,6 +298,12 @@ created objects.
 
 =cut
 
+=item can()
+
+A smarter C<can> that can tell which attributes are also methods.
+
+=cut
+
 sub add_attributes
 	{
 	my $self = shift;
@@ -365,14 +392,11 @@ Fetch URL and parse its content for links.
 
 sub parse_url
 	{
-	my $self = shift;
-	my $url  = shift;
+	my $data = $_[0]->ua->get( $_[1] )->content;
 		
-	my $data = $self->ua->get( $url )->content;
+	return unless $data;
 	
-	return unless defined $data;
-	
-	$self->parse( $data );
+	$_[0]->parse( $data );
 	}
 
 =item $extor->parse( $data )
@@ -396,9 +420,7 @@ Return a list of the links.
 
 sub links
 	{
-	my $self = shift;
-
-	return map { $$_[2] } $self->_link_refs;
+	return map { $$_[3] } $_[0]->_link_refs;
 	}
 
 =item $extor->img

@@ -12,3 +12,5 @@ MANIFEST.SKIP
 \.lwpcookies
 \.gz$
 \.svn
+\.git
+cover_db
