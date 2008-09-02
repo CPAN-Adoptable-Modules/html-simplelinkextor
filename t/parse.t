@@ -23,6 +23,7 @@ foreach my $attr ( keys %attr ) { $total_links += $attr{$attr} };
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 use File::Spec;
 use Test::More tests => keys( %attr ) + keys( %tags ) + 15;
+use URI::file;
 
 my $class = "HTML::SimpleLinkExtor";
 
@@ -88,7 +89,7 @@ my $file = File::Spec->rel2abs(
 	);
 ok( -e $file, "File [$file] is there" );
 
-my $url = "file://$file"; 
+my $url = URI::file->new( $file ); 
 
 my $extor = HTML::SimpleLinkExtor->new;
 isa_ok( $extor, $class );
@@ -109,7 +110,7 @@ my $file = File::Spec->rel2abs(
 
 ok( ! -e $file, "File [$file] is not there" );
 
-my $url = "file://$file"; 
+my $url = URI::file->new( $file ); 
 
 my $extor = HTML::SimpleLinkExtor->new;
 isa_ok( $extor, $class );
