@@ -3,7 +3,7 @@ use ExtUtils::MakeMaker;
 
 require 5.006;
 
-eval "use Test::Manifest 1.14";   
+eval "use Test::Manifest 1.21";   
    
 WriteMakefile
 	(
@@ -22,6 +22,7 @@ WriteMakefile
 		'LWP::UserAgent'  => '0',
 		'Test::Output'    => '0',
 		'URI'             => '1.09',
+		'URI::file'       => '0',
 		},
 		
 	'MAN3PODS'     => {
