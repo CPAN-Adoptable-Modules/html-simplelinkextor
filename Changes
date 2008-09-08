@@ -1,6 +1,10 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.22 - Sun Sep  7 18:02:42 2008
+	* Fix a test problem with 5.6.2. It's http://rt.cpan.org/Ticket/Display.html?id=38796
+	in Test::Output.
+
 1.21_02 - Mon Sep  1 23:01:25 2008
 	* More fixes to parse.t for Windows. Now I know how to correctly 
 	make file: URIs for Windows:
