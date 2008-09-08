@@ -8,7 +8,7 @@ my $method = 'AUTOLOAD';
 
 use_ok( $class );
 
-$SIG{__WARN__} = sub { print STDERR @_ }; # workaround problem in Test::Output
+$SIG{__WARN__} = sub { print STDERR @_ }; # 5.6.2 workaround problem in Test::Output
 
 {
 no strict 'refs';
