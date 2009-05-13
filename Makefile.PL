@@ -25,12 +25,8 @@ WriteMakefile
 		'URI::file'       => '0',
 		},
 		
-	'MAN3PODS'     => {
-		'lib/SimpleLinkExtor.pm' => '$(INST_MAN3DIR)/HTML::SimpleLinkExtor.3',
-		},
-
 	'MAN1PODS'     => {
-		'scripts/linktractor' => '$(INST_MAN1DIR)/linktractor.1',
+		'scripts/linktractor' => '$(INST_MAN1DIR)/linktractor.$(MAN1EXT)',
 		},
 
 	'EXE_FILES'    => [ 'scripts/linktractor' ],
