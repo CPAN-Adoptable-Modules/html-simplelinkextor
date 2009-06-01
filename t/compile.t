@@ -1,5 +1,3 @@
-# $Id$
-
 BEGIN {
 	our @modules = qw(
 		HTML::SimpleLinkExtor

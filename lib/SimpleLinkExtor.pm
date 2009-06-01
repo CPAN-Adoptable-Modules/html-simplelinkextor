@@ -1,4 +1,3 @@
-# $Id$
 package HTML::SimpleLinkExtor;
 use strict;
 

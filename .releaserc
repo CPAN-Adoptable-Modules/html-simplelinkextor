@@ -1,4 +1,2 @@
 cpan_user BDFOY
-sf_user comndog
-sf_group_id 36221
-sf_package_id 28820
+skip_kwalitee 1
