@@ -6,7 +6,7 @@ use warnings;
 no warnings;
 
 use subs qw();
-use vars qw($VERSION @ISA %AUTO_METHODS $AUTOLOAD );
+use vars qw( $VERSION @ISA %AUTO_METHODS $AUTOLOAD );
 
 use AutoLoader;
 use Carp qw(carp);
@@ -14,7 +14,7 @@ use HTML::LinkExtor;
 use LWP::UserAgent;
 use URI;
 
-$VERSION = 1.20;
+$VERSION = '1.21';
 
 @ISA = qw(HTML::LinkExtor);
 
