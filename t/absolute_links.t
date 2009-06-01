@@ -1,5 +1,3 @@
-# $Id: parse.t 1969 2007-01-04 17:36:42Z comdog $
-
 use File::Spec;
 use Test::More 'no_plan';
 
@@ -24,6 +22,6 @@ $p->parse_file( $file );
 my @links = $p->absolute_links;
 my $links = $p->absolute_links;
 
-is( scalar @links, $links, "Found the right number of links" );
+is( scalar @links, $links, "Array and scalar context get same answer" );
 is( $links, 11, "Found the right number of links" );
 }
