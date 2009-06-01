@@ -1,6 +1,10 @@
 # $Id$
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.21 - Mon Jun  1 00:50:59 2009
+	* Fix the test HTML files to close iframe tags now that
+	HTML::Parser ignores their content (RT #45189)
+
 1.19 - Fri Dec  7 01:32:15 2007
 	* RT #31160: added a schemes() method to extract links by their
 	scheme, and absolute_links() and relative_links() to extract
