@@ -420,7 +420,7 @@ Return a list of the links.
 
 sub links
 	{
-	return map { $$_[3] } $_[0]->_link_refs;
+	map { $$_[2] } $_[0]->_link_refs;
 	}
 
 =item $extor->img
@@ -532,7 +532,7 @@ sub absolute_links
 			length $scheme;
 			}
 		map { $$_[2] } 
-			$self->_link_refs;
+		$self->_link_refs;
 	
 	wantarray ? @links : scalar @links;
 	}
