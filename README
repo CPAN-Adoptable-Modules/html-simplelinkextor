@@ -15,11 +15,11 @@ the file, you can read it with perldoc.
 If you want to read it before you install it, you can use
 perldoc directly on the module file.
 
-	perldoc lib/SimpleLinkExtor.pm
+	perldoc lib/HTML/SimpleLinkExtor.pm
 	
-This module is also in CVS on SourceForge
+This module is also in Github
 
-	http://sourceforge.net/projects/brian-d-foy/
+	https://github.com/briandfoy/html-simplelinkextor
 
 You may use HTML::SimpleLink::Extor under the same terms as Perl
 itself.

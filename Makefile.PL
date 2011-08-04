@@ -35,5 +35,11 @@ WriteMakefile
 		'SUFFIX'          => 'gz',
 		},
 
+  	'META_MERGE'   => {
+		resources => {
+			repository  => 'https://github.com/briandfoy/html-simplelinkextor'
+			},
+		},
+
     clean  => { FILES    => q|HTML-SimpleLinkExtor-*| },
 	);
