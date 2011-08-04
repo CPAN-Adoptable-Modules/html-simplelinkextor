@@ -78,7 +78,9 @@ sub _init_links
 	{
 	my $self  = shift;
 	my $links = shift;
-		
+
+	$links = [] unless defined $links;
+
 	do { 
 		delete $self->{'_SimpleLinkExtor_links'};
 		return
