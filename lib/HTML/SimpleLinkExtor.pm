@@ -63,17 +63,17 @@ sub can
 
 	return 1;
 	}
-	
+
 sub _can
 	{
 	no strict 'refs';
 
 	return 1 if exists $AUTO_METHODS{ $_[1] };
 	return 1 if defined &{"$_[1]"};
-	
+
 	return 0;
 	}
-	
+
 sub _init_links
 	{
 	my $self  = shift;
@@ -85,9 +85,9 @@ sub _init_links
 		delete $self->{'_SimpleLinkExtor_links'};
 		return
 		} unless UNIVERSAL::isa( $links, 'ARRAY' );
-	
+
 	$self->{'_SimpleLinkExtor_links'} = $links;
-	
+
 	$self;
 	}
 
@@ -156,13 +156,13 @@ sub _add_base
 
 	my $base      = $self->{'_SimpleLinkExtor_base'};
 	return unless $base;
-	
+
 	foreach my $tuple ( @$array_ref )
 		{
 		foreach my $index ( 1 .. $#$tuple )
 			{
 			next unless exists $AUTO_METHODS{ $tuple->[$index] };
-			
+
 			my $url = URI->new( $tuple->[$index + 1] );
 			next unless ref $url;
 			$tuple->[$index + 1] = $url->abs($base);
@@ -186,7 +186,7 @@ HTML::SimpleLinkExtor - Extract links from HTML
 	$extor->parse_file($other_file); # get more links
 
 	$extor->clear_links; # reset the link list
-	
+
 	#extract all of the links
 	@all_links   = $extor->links;
 
@@ -207,7 +207,7 @@ HTML::SimpleLinkExtor - Extract links from HTML
 	@background  = $extor->background;
 
 	@links       = $extor->scheme( 'http' );
-	
+
 =head1 DESCRIPTION
 
 This is a simple HTML link extractor designed for the person who does
@@ -258,7 +258,7 @@ sub new
 	$self->{'_SimpleLinkExtor_base'} = $base;
 	$self->{'_ua'} = LWP::UserAgent->new;
 	$self->_init_links;
-	
+
 	return $self;
 	}
 
@@ -284,7 +284,7 @@ sub add_tags
 	{
 	my $self = shift;
 	my $tag  = lc shift;
-	
+
 	$AUTO_METHODS{ $tag } = 'tag';
 	}
 
@@ -309,10 +309,10 @@ sub add_attributes
 	{
 	my $self = shift;
 	my $attr = lc shift;
-	
+
 	$AUTO_METHODS{ $attr } = 'attribute';
 	}
-	
+
 =item HTML::SimpleLinkExtor->remove_tags( TAG [, TAG ] )
 
 Take tags out of the internal list that C<HTML::SimpleLinkExtor> uses
@@ -325,7 +325,7 @@ sub remove_tags
 	{
 	my $self = shift;
 	my $tag  = lc shift;
-	
+
 	delete $AUTO_METHODS{ $tag };
 	}
 
@@ -341,7 +341,7 @@ sub remove_attributes
 	{
 	my $self = shift;
 	my $attr = lc shift;
-	
+
 	delete $AUTO_METHODS{ $attr };
 	}
 
@@ -355,7 +355,7 @@ attention to.
 sub attribute_list
 	{
 	my $self = shift;
-	
+
 	grep { $AUTO_METHODS{ $_ } eq 'attribute' } keys %AUTO_METHODS;
 	}
 
@@ -370,7 +370,7 @@ Returns a list of the tags C<HTML::SimpleLinkExtor> pays attention to.
 sub tag_list
 	{
 	my $self = shift;
-	
+
 	grep { $AUTO_METHODS{ $_ } eq 'tag' } keys %AUTO_METHODS;
 	}
 
@@ -394,9 +394,9 @@ Fetch URL and parse its content for links.
 sub parse_url
 	{
 	my $data = $_[0]->ua->get( $_[1] )->content;
-		
+
 	return unless $data;
-	
+
 	$_[0]->parse( $data );
 	}
 
@@ -521,7 +521,7 @@ absolute URLs by specifying a base).
 In list context it returns the links. In scalar context it returns
 the count of the matching links.
 
-=cut	
+=cut
 
 sub absolute_links
 	{
@@ -547,7 +547,7 @@ In list context it returns the links. In scalar context it returns
 the count of the matching links.
 
 
-=cut 
+=cut
 
 sub relative_links
 	{
