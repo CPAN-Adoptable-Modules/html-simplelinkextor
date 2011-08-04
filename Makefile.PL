@@ -18,6 +18,7 @@ WriteMakefile
 		'Test::Output'    => '0',
 		'URI'             => '1.09',
 		'URI::file'       => '0',
+		'Test::More'      => '0.90',  # for subtest
 		},
 
 	'EXE_FILES'    => [ 'scripts/linktractor' ],

@@ -1,6 +1,4 @@
-#!/usr/bin/perl
-
-use Test::More 'no_plan';
+use Test::More 0.90;
 use Test::Output;
 
 my $class  = 'HTML::SimpleLinkExtor';
@@ -22,9 +20,8 @@ my $extor = $class->new;
 {
 my @allowed = qw(a src href);
 
-foreach my $method ( @allowed )
-	{
-	can_ok( $extor, $method ); 
+foreach my $method ( @allowed ) {
+	can_ok( $extor, $method );
 	}
 }
 
@@ -33,9 +30,8 @@ foreach my $method ( @allowed )
 {
 my @not_allowed = qw(foo bar baz);
 
-foreach my $method ( @not_allowed )
-	{
-	ok( ! $extor->can( $method ), 
+foreach my $method ( @not_allowed ) {
+	ok( ! $extor->can( $method ),
 		"can returns false for unallowed method $method" );
 
 	stderr_like
@@ -44,3 +40,5 @@ foreach my $method ( @not_allowed )
 		"unallowed method $method gives a warning";
 		}
 }
+
+done_testing();
