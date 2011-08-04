@@ -8,24 +8,16 @@ WriteMakefile
 	(
     'NAME'         => 'HTML::SimpleLinkExtor',
 	'ABSTRACT'     => 'Extract links from HTML',
-    'VERSION_FROM' => 'lib/SimpleLinkExtor.pm',
+    'VERSION_FROM' => 'lib/HTML/SimpleLinkExtor.pm',
 	'LICENSE'      => 'perl',
 	'AUTHOR'       => 'brian d foy <bdfoy@cpan.org>',
 	
- 	'PM'           => {
-		'lib/SimpleLinkExtor.pm'=> '$(INST_LIBDIR)/SimpleLinkExtor.pm',
-		},
-
    'PREREQ_PM'     => { 
     	'HTML::LinkExtor' => '1.28',
 		'LWP::UserAgent'  => '0',
 		'Test::Output'    => '0',
 		'URI'             => '1.09',
 		'URI::file'       => '0',
-		},
-		
-	'MAN1PODS'     => {
-		'scripts/linktractor' => '$(INST_MAN1DIR)/linktractor.$(MAN1EXT)',
 		},
 
 	'EXE_FILES'    => [ 'scripts/linktractor' ],
