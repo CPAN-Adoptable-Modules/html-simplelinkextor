@@ -570,7 +570,7 @@ sub relative_links
 
 This module doesn't handle all of the HTML tags that might
 have links.  If someone wants those, I'll add them, or you
-can edit %AUTO_METHODS in the source.
+can edit C<%AUTO_METHODS> in the source.
 
 =head1 CREDITS
 
