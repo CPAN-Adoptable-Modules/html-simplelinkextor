@@ -13,7 +13,7 @@ use HTML::LinkExtor;
 use LWP::UserAgent;
 use URI;
 
-$VERSION = '1.23';
+$VERSION = '1.24';
 
 @ISA = qw(HTML::LinkExtor);
 
