@@ -13,11 +13,7 @@ use HTML::LinkExtor;
 use LWP::UserAgent;
 use URI;
 
-<<<<<<< HEAD:lib/SimpleLinkExtor.pm
 $VERSION = '1.22';
-=======
-$VERSION = '1.21';
->>>>>>> 0bebeb1dc66bb28fcd8551ba5e64c475c33b8404:lib/SimpleLinkExtor.pm
 
 @ISA = qw(HTML::LinkExtor);
 
@@ -67,29 +63,29 @@ sub can
 
 	return 1;
 	}
-	
+
 sub _can
 	{
 	no strict 'refs';
 
 	return 1 if exists $AUTO_METHODS{ $_[1] };
 	return 1 if defined &{"$_[1]"};
-	
+
 	return 0;
 	}
-	
+
 sub _init_links
 	{
 	my $self  = shift;
 	my $links = shift;
-		
-	do { 
+
+	do {
 		delete $self->{'_SimpleLinkExtor_links'};
 		return
 		} unless UNIVERSAL::isa( $links, 'ARRAY' );
-	
+
 	$self->{'_SimpleLinkExtor_links'} = $links;
-	
+
 	$self;
 	}
 
@@ -158,13 +154,13 @@ sub _add_base
 
 	my $base      = $self->{'_SimpleLinkExtor_base'};
 	return unless $base;
-	
+
 	foreach my $tuple ( @$array_ref )
 		{
 		foreach my $index ( 1 .. $#$tuple )
 			{
 			next unless exists $AUTO_METHODS{ $tuple->[$index] };
-			
+
 			my $url = URI->new( $tuple->[$index + 1] );
 			next unless ref $url;
 			$tuple->[$index + 1] = $url->abs($base);
@@ -188,7 +184,7 @@ HTML::SimpleLinkExtor - Extract links from HTML
 	$extor->parse_file($other_file); # get more links
 
 	$extor->clear_links; # reset the link list
-	
+
 	#extract all of the links
 	@all_links   = $extor->links;
 
@@ -209,7 +205,7 @@ HTML::SimpleLinkExtor - Extract links from HTML
 	@background  = $extor->background;
 
 	@links       = $extor->scheme( 'http' );
-	
+
 =head1 DESCRIPTION
 
 This is a simple HTML link extractor designed for the person who does
@@ -260,7 +256,7 @@ sub new
 	$self->{'_SimpleLinkExtor_base'} = $base;
 	$self->{'_ua'} = LWP::UserAgent->new;
 	$self->_init_links;
-	
+
 	return $self;
 	}
 
@@ -286,7 +282,7 @@ sub add_tags
 	{
 	my $self = shift;
 	my $tag  = lc shift;
-	
+
 	$AUTO_METHODS{ $tag } = 'tag';
 	}
 
@@ -311,10 +307,10 @@ sub add_attributes
 	{
 	my $self = shift;
 	my $attr = lc shift;
-	
+
 	$AUTO_METHODS{ $attr } = 'attribute';
 	}
-	
+
 =item HTML::SimpleLinkExtor->remove_tags( TAG [, TAG ] )
 
 Take tags out of the internal list that C<HTML::SimpleLinkExtor> uses
@@ -327,7 +323,7 @@ sub remove_tags
 	{
 	my $self = shift;
 	my $tag  = lc shift;
-	
+
 	delete $AUTO_METHODS{ $tag };
 	}
 
@@ -343,7 +339,7 @@ sub remove_attributes
 	{
 	my $self = shift;
 	my $attr = lc shift;
-	
+
 	delete $AUTO_METHODS{ $attr };
 	}
 
@@ -357,7 +353,7 @@ attention to.
 sub attribute_list
 	{
 	my $self = shift;
-	
+
 	grep { $AUTO_METHODS{ $_ } eq 'attribute' } keys %AUTO_METHODS;
 	}
 
@@ -372,7 +368,7 @@ Returns a list of the tags C<HTML::SimpleLinkExtor> pays attention to.
 sub tag_list
 	{
 	my $self = shift;
-	
+
 	grep { $AUTO_METHODS{ $_ } eq 'tag' } keys %AUTO_METHODS;
 	}
 
@@ -396,9 +392,9 @@ Fetch URL and parse its content for links.
 sub parse_url
 	{
 	my $data = $_[0]->ua->get( $_[1] )->content;
-		
+
 	return unless $data;
-	
+
 	$_[0]->parse( $data );
 	}
 
@@ -413,7 +409,7 @@ another file.
 
 =cut
 
-sub clear_links { $_[0]->_init_links }
+sub clear_links { $_[0]->_init_links( [] ) }
 
 =item $extor->links
 
@@ -499,19 +495,17 @@ the count of the matching links.
 sub schemes
 	{
 	my( $self, @schemes ) = @_;
-	
-	my %schemes;
-	
-	@schemes{@schemes} = lc @schemes;
-	
-	my @links = 
-		grep { 
-			my $scheme = eval { lc URI->new( $_ )->scheme };  
+
+	my %schemes = map { lc, lc } @schemes;
+
+	my @links =
+		grep {
+			my $scheme = eval { lc URI->new( $_ )->scheme };
 			exists $schemes{ $scheme };
 			}
-		map { $$_[2] } 
+		map { $_->[2] }
 			$self->_link_refs;
-			
+
 	wantarray ? @links : scalar @links;
 	}
 
@@ -523,23 +517,23 @@ absolute URLs by specifying a base).
 In list context it returns the links. In scalar context it returns
 the count of the matching links.
 
-=cut	
+=cut
 
 sub absolute_links
 	{
 	my $self = shift;
-		
-	my @links = 
-		grep { 
-			my $scheme = eval { lc URI->new( $_ )->scheme };  
+
+	my @links =
+		grep {
+			my $scheme = eval { lc URI->new( $_ )->scheme };
 			length $scheme;
 			}
-		map { $$_[2] } 
+		map { $$_[2] }
 		$self->_link_refs;
-	
+
 	wantarray ? @links : scalar @links;
 	}
-	
+
 =item $extor->relative_links
 
 Returns the relatives URLs (which might exclude those converted to
@@ -549,20 +543,20 @@ In list context it returns the links. In scalar context it returns
 the count of the matching links.
 
 
-=cut 
+=cut
 
 sub relative_links
 	{
 	my $self = shift;
-		
-	my @links = 
-		grep { 
-			my $scheme = eval { URI->new( $_ )->scheme }; 
+
+	my @links =
+		grep {
+			my $scheme = eval { URI->new( $_ )->scheme };
 			! defined $scheme;
 			}
-		map { $$_[2] } 
+		map { $$_[2] }
 			$self->_link_refs;
-	
+
 	wantarray ? @links : scalar @links;
 	}
 
@@ -572,7 +566,7 @@ sub relative_links
 
 This module doesn't handle all of the HTML tags that might
 have links.  If someone wants those, I'll add them, or you
-can edit %AUTO_METHODS in the source.
+can edit C<%AUTO_METHODS> in the source.
 
 =head1 CREDITS
 
@@ -581,13 +575,9 @@ a USEMAP attribute.
 
 =head1 SOURCE AVAILABILITY
 
-This source is part of a SourceForge project which always has the
-latest sources in SVN, as well as all of the previous releases.
+This module is in Github
 
-	http://sourceforge.net/projects/brian-d-foy/
-
-If, for some reason, I disappear from the world, one of the other
-members of the project can shepherd this module appropriately.
+	https://github.com/briandfoy/html-simplelinkextor
 
 =head1 AUTHORS
 
@@ -595,7 +585,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2004-2007 brian d foy.  All rights reserved.
+Copyright (c) 2004-2011 brian d foy.  All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
