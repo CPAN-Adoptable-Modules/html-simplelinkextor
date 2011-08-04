@@ -1,5 +1,8 @@
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.23 - Thu Aug  4 06:37:30 2011
+	Bump version
+
 1.22 - Thu Aug  4 06:35:39 2011
 	* Fix clear_links so it actually clears the links
 	* Convert most tests to use subtest and Test::More 0.90
