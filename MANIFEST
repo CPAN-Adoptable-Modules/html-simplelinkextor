@@ -1,6 +1,6 @@
 Changes
 examples/README
-lib/SimpleLinkExtor.pm
+lib/HTML/SimpleLinkExtor.pm
 LICENSE
 Makefile.PL
 MANIFEST
