@@ -79,9 +79,7 @@ sub _init_links
 	my $self  = shift;
 	my $links = shift;
 
-	$links = [] unless defined $links;
-
-	do { 
+	do {
 		delete $self->{'_SimpleLinkExtor_links'};
 		return
 		} unless UNIVERSAL::isa( $links, 'ARRAY' );
@@ -411,7 +409,7 @@ another file.
 
 =cut
 
-sub clear_links { $_[0]->_init_links }
+sub clear_links { $_[0]->_init_links( [] ) }
 
 =item $extor->links
 
@@ -497,19 +495,17 @@ the count of the matching links.
 sub schemes
 	{
 	my( $self, @schemes ) = @_;
-	
-	my %schemes;
-	
-	@schemes{@schemes} = lc @schemes;
-	
-	my @links = 
-		grep { 
-			my $scheme = eval { lc URI->new( $_ )->scheme };  
+
+	my %schemes = map { lc, lc } @schemes;
+
+	my @links =
+		grep {
+			my $scheme = eval { lc URI->new( $_ )->scheme };
 			exists $schemes{ $scheme };
 			}
-		map { $$_[2] } 
+		map { $_->[2] }
 			$self->_link_refs;
-			
+
 	wantarray ? @links : scalar @links;
 	}
 
@@ -526,18 +522,18 @@ the count of the matching links.
 sub absolute_links
 	{
 	my $self = shift;
-		
-	my @links = 
-		grep { 
-			my $scheme = eval { lc URI->new( $_ )->scheme };  
+
+	my @links =
+		grep {
+			my $scheme = eval { lc URI->new( $_ )->scheme };
 			length $scheme;
 			}
-		map { $$_[2] } 
+		map { $$_[2] }
 		$self->_link_refs;
-	
+
 	wantarray ? @links : scalar @links;
 	}
-	
+
 =item $extor->relative_links
 
 Returns the relatives URLs (which might exclude those converted to
@@ -552,15 +548,15 @@ the count of the matching links.
 sub relative_links
 	{
 	my $self = shift;
-		
-	my @links = 
-		grep { 
-			my $scheme = eval { URI->new( $_ )->scheme }; 
+
+	my @links =
+		grep {
+			my $scheme = eval { URI->new( $_ )->scheme };
 			! defined $scheme;
 			}
-		map { $$_[2] } 
+		map { $$_[2] }
 			$self->_link_refs;
-	
+
 	wantarray ? @links : scalar @links;
 	}
 
