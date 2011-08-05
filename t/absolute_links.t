@@ -1,4 +1,4 @@
-use Test::More 0.90;
+use Test::More 0.96;
 use File::Spec;
 
 my $file = 't/example2.html';

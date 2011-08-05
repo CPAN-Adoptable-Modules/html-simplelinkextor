@@ -22,7 +22,7 @@ foreach my $attr ( keys %attr ) { $total_links += $attr{$attr} };
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 use File::Spec;
-use Test::More 0.90;
+use Test::More 0.96;
 use URI::file;
 
 my $class = "HTML::SimpleLinkExtor";
