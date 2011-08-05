@@ -1,4 +1,4 @@
-use Test::More 0.90;
+use Test::More 0.96;
 
 subtest 'Sanity check' => sub {
 	use_ok( 'HTML::SimpleLinkExtor');

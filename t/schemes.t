@@ -1,5 +1,5 @@
 use File::Spec;
-use Test::More 0.90;
+use Test::More 0.96;
 
 my $file = 't/example2.html';
 
