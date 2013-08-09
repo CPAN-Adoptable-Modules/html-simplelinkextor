@@ -13,7 +13,7 @@ use HTML::LinkExtor;
 use LWP::UserAgent;
 use URI;
 
-$VERSION = '1.25';
+$VERSION = '1.25_01';
 
 @ISA = qw(HTML::LinkExtor);
 
@@ -36,15 +36,13 @@ $VERSION = '1.25';
 
 sub DESTROY { 1 };
 
-sub AUTOLOAD
-	{
+sub AUTOLOAD {
 	my $self = shift;
 	my $method = $AUTOLOAD;
 
 	$method =~ s/.*:://;
 
-	unless( exists $AUTO_METHODS{$method} )
-		{
+	unless( exists $AUTO_METHODS{$method} ) {
 		carp __PACKAGE__ . ": method $method unknown";
 		return;
 		}
@@ -52,20 +50,17 @@ sub AUTOLOAD
 	$self->_extract( $method );
 	}
 
-sub can
-	{
+sub can {
 	my( $self, @methods ) = @_;
 
-	foreach my $method ( @methods )
-		{
+	foreach my $method ( @methods ) {
 		return 0 unless $self->_can( $method );
 		}
 
 	return 1;
 	}
 
-sub _can
-	{
+sub _can {
 	no strict 'refs';
 
 	return 1 if exists $AUTO_METHODS{ $_[1] };
@@ -74,23 +69,20 @@ sub _can
 	return 0;
 	}
 
-sub _init_links
-	{
+sub _init_links {
 	my $self  = shift;
 	my $links = shift;
-
 	do {
 		delete $self->{'_SimpleLinkExtor_links'};
 		return
-		} unless UNIVERSAL::isa( $links, 'ARRAY' );
+		} unless ref $links eq ref [];
 
 	$self->{'_SimpleLinkExtor_links'} = $links;
 
 	$self;
 	}
 
-sub _link_refs
-	{
+sub _link_refs {
 	my $self = shift;
 
 	my @link_refs;
@@ -100,23 +92,21 @@ sub _link_refs
 	# through this branch. In _init_links I have to use a delete
 	# which I really don't like. I don't have time to rewrite this
 	# right now though --brian, 20050816
-	if( ref $self->{'_SimpleLinkExtor_links'} )
-		{
+	if( ref $self->{'_SimpleLinkExtor_links'} ) {
 		@link_refs = @{$self->{'_SimpleLinkExtor_links'}};
 		}
-	else
-		{
-		@link_refs = $self->SUPER::links();
+	else {
+		@link_refs = map { 
+			HTML::SimpleLinkExtor::LinkRef->new( $_ )
+			} $self->SUPER::links();
 		$self->_init_links( \@link_refs );
 		}
 
 	# defined() so that an empty string means "do not resolve"
-	unless( defined $self->{'_SimpleLinkExtor_base'} )
-		{
+	unless( defined $self->{'_SimpleLinkExtor_base'} ) {
 		my $count = -1;
 		my $found =  0;
-		foreach my $link ( @link_refs )
-			{
+		foreach my $link ( @link_refs ) {
 			$count++;
 			next unless $link->[0] eq 'base' and $link->[1] eq 'href';
 			$found = 1;
@@ -133,32 +123,28 @@ sub _link_refs
 	return @link_refs;
 	}
 
-sub _extract
-	{
+sub _extract {
 	my $self      = shift;
-	my $method    = shift;
+	my $type      = shift;
 
-	my $position  = $AUTO_METHODS{$method} eq 'tag' ? 0 : 1;
+	my $method  = $AUTO_METHODS{$type} eq 'tag' ? 'tag' : 'attribute';
 
-	my @links = map  { $$_[2] }
-	            grep { $_->[$position] eq $method }
+	my @links = map  { $_->linkref }
+	            grep { $_->$method() eq $type }
 	            $self->_link_refs;
 
 	return @links;
 	}
 
-sub _add_base
-	{
+sub _add_base {
 	my $self      = shift;
 	my $array_ref = shift;
 
 	my $base      = $self->{'_SimpleLinkExtor_base'};
 	return unless $base;
 
-	foreach my $tuple ( @$array_ref )
-		{
-		foreach my $index ( 1 .. $#$tuple )
-			{
+	foreach my $tuple ( @$array_ref ) {
+		foreach my $index ( 1 .. $#$tuple ) {
 			next unless exists $AUTO_METHODS{ $tuple->[$index] };
 
 			my $url = URI->new( $tuple->[$index + 1] );
@@ -213,7 +199,7 @@ not want to deal with the intricacies of C<HTML::Parser> or the
 de-referencing needed to get links out of C<HTML::LinkExtor>.
 
 You can extract all the links or some of the links (based on the HTML
-tag name or attribute name). If a E<lt>BASE HREFE<gt> tag is found,
+tag name or attribute name). If a C<< <BASE HREF> >> tag is found,
 all of the relative URLs will be resolved according to that reference.
 
 This module is simply a subclass around C<HTML::LinkExtor>, so it can
@@ -233,20 +219,19 @@ reset the link list between files, use the clear_links method.
 Create the link extractor object.
 
 =item $extor = HTML::SimpleLinkExtor->new('')
+
 =item $extor = HTML::SimpleLinkExtor->new($base)
 
 Create the link extractor object and resolve the relative URLs
 accoridng to the supplied base URL. The supplied base URL overrides
 any other base URL found in the HTML.
 
-
 Create the link extractor object and do not resolve relative
 links.
 
 =cut
 
-sub new
-	{
+sub new {
 	my $class = shift;
 	my $base  = shift;
 
@@ -278,8 +263,7 @@ the entire class, including previously created objects.
 
 =cut
 
-sub add_tags
-	{
+sub add_tags {
 	my $self = shift;
 	my $tag  = lc shift;
 
@@ -303,8 +287,7 @@ A smarter C<can> that can tell which attributes are also methods.
 
 =cut
 
-sub add_attributes
-	{
+sub add_attributes {
 	my $self = shift;
 	my $attr = lc shift;
 
@@ -319,8 +302,7 @@ created objects.
 
 =cut
 
-sub remove_tags
-	{
+sub remove_tags {
 	my $self = shift;
 	my $tag  = lc shift;
 
@@ -335,8 +317,7 @@ class, including previously created objects.
 
 =cut
 
-sub remove_attributes
-	{
+sub remove_attributes {
 	my $self = shift;
 	my $attr = lc shift;
 
@@ -350,8 +331,7 @@ attention to.
 
 =cut
 
-sub attribute_list
-	{
+sub attribute_list {
 	my $self = shift;
 
 	grep { $AUTO_METHODS{ $_ } eq 'attribute' } keys %AUTO_METHODS;
@@ -360,13 +340,13 @@ sub attribute_list
 =item HTML::SimpleLinkExtor->tag_list
 
 Returns a list of the tags C<HTML::SimpleLinkExtor> pays attention to.
+These tags have convenience methods.
 
 =back
 
 =cut
 
-sub tag_list
-	{
+sub tag_list {
 	my $self = shift;
 
 	grep { $AUTO_METHODS{ $_ } eq 'tag' } keys %AUTO_METHODS;
@@ -389,8 +369,7 @@ Fetch URL and parse its content for links.
 
 =cut
 
-sub parse_url
-	{
+sub parse_url {
 	my $data = $_[0]->ua->get( $_[1] )->content;
 
 	return unless $data;
@@ -417,9 +396,16 @@ Return a list of the links.
 
 =cut
 
-sub links
-	{
-	map { $$_[2] } $_[0]->_link_refs;
+sub links {
+	map  { $_->linkref } 
+	grep { $_[0]->_is_an_allowed_tag( $_->tag ) }
+	$_[0]->_link_refs 
+	}
+
+sub _is_an_allowed_tag { 
+	exists $AUTO_METHODS{$_[1]} 
+		and 
+	$AUTO_METHODS{$_[1]} eq 'tag' 
 	}
 
 =item $extor->img
@@ -492,8 +478,7 @@ the count of the matching links.
 
 =cut
 
-sub schemes
-	{
+sub schemes {
 	my( $self, @schemes ) = @_;
 
 	my %schemes = map { lc, lc } @schemes;
@@ -503,8 +488,8 @@ sub schemes
 			my $scheme = eval { lc URI->new( $_ )->scheme };
 			exists $schemes{ $scheme };
 			}
-		map { $_->[2] }
-			$self->_link_refs;
+		map { $_->linkref }
+		$self->_link_refs;
 
 	wantarray ? @links : scalar @links;
 	}
@@ -519,8 +504,7 @@ the count of the matching links.
 
 =cut
 
-sub absolute_links
-	{
+sub absolute_links {
 	my $self = shift;
 
 	my @links =
@@ -528,7 +512,7 @@ sub absolute_links
 			my $scheme = eval { lc URI->new( $_ )->scheme };
 			length $scheme;
 			}
-		map { $$_[2] }
+		map { $_->linkref }
 		$self->_link_refs;
 
 	wantarray ? @links : scalar @links;
@@ -545,8 +529,7 @@ the count of the matching links.
 
 =cut
 
-sub relative_links
-	{
+sub relative_links {
 	my $self = shift;
 
 	my @links =
@@ -554,7 +537,7 @@ sub relative_links
 			my $scheme = eval { URI->new( $_ )->scheme };
 			! defined $scheme;
 			}
-		map { $$_[2] }
+		map { $_->linkref }
 			$self->_link_refs;
 
 	wantarray ? @links : scalar @links;
@@ -585,12 +568,28 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2004-2011 brian d foy.  All rights reserved.
+Copyright (c) 2004-2013 brian d foy.  All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
+
+BEGIN {
+package 
+	HTML::SimpleLinkExtor::LinkRef;
+use Carp qw(croak);
+
+sub new {
+	my( $class, $arrayref ) = @_;
+	croak "Not an array reference argument!" unless ref $arrayref eq ref [];
+	bless $arrayref, $class;
+	}
+
+sub tag       { $_[0]->[0] }
+sub attribute { $_[0]->[1] }
+sub linkref   { $_[0]->[2] }
+}
 
 1;
 

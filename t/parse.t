@@ -42,6 +42,15 @@ subtest 'extor' => sub {
 		$extor->parse_file( $file );
 
 		my @links = $extor->links;
+		ok( 
+			exists $extor->{'_SimpleLinkExtor_links'}, 
+			'_SimpleLinkExtor_links exists' 
+			);
+
+		is( scalar @{ $extor->{'_SimpleLinkExtor_links'} }, 
+			$total_links, "Data structure has the links" 
+			);
+
 		is( scalar @links, $total_links, "Found the right number of links" );
 		};
 
