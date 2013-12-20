@@ -4,9 +4,8 @@ lib/HTML/SimpleLinkExtor.pm
 LICENSE
 Makefile.PL
 MANIFEST
+MANIFEST.SKIP
 META.yml			Module meta-data (added by MakeMaker)
-MYMETA.json
-MYMETA.yml
 README
 scripts/linktractor
 t/absolute_links.t
