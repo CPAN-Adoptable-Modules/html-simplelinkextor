@@ -1,5 +1,8 @@
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
+1.26 - Fri Jan  3 14:00:31 2014
+	* Get rid of MYMETA
+
 1.25_01 - Fri Aug  9 14:34:27 2013
 	* Filter links by allowed tags. I should have been doing this
 	all along.  RT #87288
