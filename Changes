@@ -1,8 +1,5 @@
 Revision history for Perl extension HTML::SimpleLinkExtor.
 
-1.26 - Tue Jan  7 07:57:51 2014
-	* RT #87288 - add the test for this bug to test_manifest
-
 1.26 - Fri Jan  3 14:00:31 2014
 	* Get rid of MYMETA
 
