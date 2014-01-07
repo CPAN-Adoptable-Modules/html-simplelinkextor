@@ -7,3 +7,4 @@ schemes.t
 relative_links.t
 absolute_links.t
 autoload.t
+rt87288.t
