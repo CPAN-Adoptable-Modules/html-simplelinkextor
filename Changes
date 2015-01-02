@@ -16,7 +16,7 @@ Revision history for Perl extension HTML::SimpleLinkExtor.
 	* Cleanups for the move to Github
 
 1.23 - Mon Jun  1 01:04:37 2009
-	* RT #45198: close off iframe tags in example HTML since 
+	* RT #45198: close off iframe tags in example HTML since
 	HTML::Parser >= 3.56 now ignores the content of iframes
 	(so it needs to know where they stop)
 
@@ -25,7 +25,7 @@ Revision history for Perl extension HTML::SimpleLinkExtor.
 	in Test::Output.
 
 1.21_02 - Mon Sep  1 23:01:25 2008
-	* More fixes to parse.t for Windows. Now I know how to correctly 
+	* More fixes to parse.t for Windows. Now I know how to correctly
 	make file: URIs for Windows:
 	http://blogs.msdn.com/ie/archive/2006/12/06/file-uris-in-windows.aspx
 
