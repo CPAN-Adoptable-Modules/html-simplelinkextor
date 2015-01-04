@@ -1,4 +1,4 @@
-Revision history for Perl extension HTML::SimpleLinkExtor.
+Revision history for Perl module HTML::SimpleLinkExtor
 
 1.27 - Tue Jan  7 08:01:22 2014
 	* RT #87288 - add the test for this bug to test_manifest
