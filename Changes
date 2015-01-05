@@ -102,15 +102,15 @@ Revision history for Perl extension HTML::SimpleLinkExtor.
 	* cleaned up the dist to use Test::More, and other housekeeping things
 
 0.72 Fri Nov  9 04:07:17 EST 2001
-	- fixed bug with img tags that contained a usemap attribute
+	* fixed bug with img tags that contained a usemap attribute
 	(identified by Will Crain <crainw@hotmail.com>)
 
 0.71  Wed Jan 24 14:34:10 EST 2001
-	- minor doc fixes
+	* minor doc fixes
 
 0.07  Fri Nov 17 19:18:41 EST 2000
-	- added support to extract frame SRC attribute values.
+	* added support to extract frame SRC attribute values.
 
 0.01  Sun Oct  8 00:58:58 2000
-	- original version; created by h2xs 1.18
+	* original version; created by h2xs 1.18
 
