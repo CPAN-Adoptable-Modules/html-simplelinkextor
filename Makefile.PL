@@ -54,7 +54,7 @@ my %WriteMakefile = (
 			},
 		},
 
-	clean  => { FILES    => q|HTML-SimpleLinkExtor-*| },
+	clean => { FILES => "$dist-*" },
 	);
 
 sub arguments { \%WriteMakefile }
