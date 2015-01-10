@@ -1,10 +1,12 @@
 require 5.008;
+
+package HTML::SimpleLinkExtor;
 use strict;
 use warnings;
    
 use File::Spec::Functions qw(catfile);
 
-my $module    = 'HTML::SimpleLinkExtor';
+my $module    = __PACKAGE__;
 ( my $dist = $module ) =~ s/::/-/g;
 
 my $github    = 'https://github.com/briandfoy/html-simplelinkextor';
