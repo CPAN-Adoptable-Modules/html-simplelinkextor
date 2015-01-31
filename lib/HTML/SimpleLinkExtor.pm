@@ -190,7 +190,7 @@ HTML::SimpleLinkExtor - Extract links from HTML
 	@body_bg     = $extor->body;
 	@background  = $extor->background;
 
-	@links       = $extor->scheme( 'http' );
+	@links       = $extor->schemes( 'http' );
 
 =head1 DESCRIPTION
 
