@@ -96,7 +96,7 @@ sub _link_refs {
 		@link_refs = @{$self->{'_SimpleLinkExtor_links'}};
 		}
 	else {
-		@link_refs = map { 
+		@link_refs = map {
 			HTML::SimpleLinkExtor::LinkRef->new( $_ )
 			} $self->SUPER::links();
 		$self->_init_links( \@link_refs );
@@ -153,6 +153,8 @@ sub _add_base {
 			}
 		}
 	}
+
+=encoding utf8
 
 =head1 NAME
 
@@ -397,15 +399,15 @@ Return a list of the links.
 =cut
 
 sub links {
-	map  { $_->linkref } 
+	map  { $_->linkref }
 	grep { $_[0]->_is_an_allowed_tag( $_->tag ) }
-	$_[0]->_link_refs 
+	$_[0]->_link_refs
 	}
 
-sub _is_an_allowed_tag { 
-	exists $AUTO_METHODS{$_[1]} 
-		and 
-	$AUTO_METHODS{$_[1]} eq 'tag' 
+sub _is_an_allowed_tag {
+	exists $AUTO_METHODS{$_[1]}
+		and
+	$AUTO_METHODS{$_[1]} eq 'tag'
 	}
 
 =item $extor->img
@@ -576,7 +578,7 @@ it under the same terms as Perl itself.
 =cut
 
 BEGIN {
-package 
+package
 	HTML::SimpleLinkExtor::LinkRef;
 use Carp qw(croak);
 
