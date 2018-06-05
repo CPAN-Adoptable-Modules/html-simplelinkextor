@@ -10,10 +10,10 @@ if( defined $f )
 	{
 	$extor->parse_url( $f );
 	}
-else 
-	{ 
+else
+	{
 	my $html = do { local $/; <STDIN> };
-	$extor->parse( $html );	
+	$extor->parse( $html );
 	}
 
 {
@@ -22,7 +22,7 @@ local $, = "\n";
 print $extor->links, '';
 }
 
-=pod 
+=pod
 
 =head1 NAME
 
@@ -31,14 +31,14 @@ linktractor - extract links from HTML
 =head1 SYNOPSIS
 
 	% linktractor fileA.html fileB.html
-	
+
 	% linktractor -f=http://www.perl.com
-	
+
 	% lwp-request http://www.example.com | linktractor
 
 	% lwp-request http://www.example.com | linktractor -b=http://www.example.com
-	
-	
+
+
 =head1 DESCRIPTION
 
 This is a small script that uses HTML::SimpleLinkExtractor to pull
