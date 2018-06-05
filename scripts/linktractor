@@ -22,6 +22,8 @@ print $extor->links, '';
 
 =pod
 
+=encoding utf8
+
 =head1 NAME
 
 linktractor - extract links from HTML
