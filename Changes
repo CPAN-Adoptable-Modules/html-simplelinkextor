@@ -1,5 +1,8 @@
 Revision history for Perl module HTML::SimpleLinkExtor
 
+1.271 2018-06-05T14:17:30Z
+	* Change to the Artistic License 2.0.
+
 1.27 - 2014-01-07
 	* RT #87288 - add the test for this bug to test_manifest
 
