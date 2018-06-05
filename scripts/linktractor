@@ -6,12 +6,10 @@ use HTML::SimpleLinkExtor;
 
 my $extor = HTML::SimpleLinkExtor->new( defined $b ? $b : () );
 
-if( defined $f )
-	{
+if( defined $f ) {
 	$extor->parse_url( $f );
 	}
-else
-	{
+else {
 	my $html = do { local $/; <STDIN> };
 	$extor->parse( $html );
 	}
