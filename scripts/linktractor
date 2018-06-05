@@ -85,8 +85,8 @@ it under the same terms as Perl itself.
 
 =head1 LICENSE
 
-You may use HTML::SimpleLinkExtor under the same terms as Perl
-itself.
+You may use HTML::SimpleLinkExtor under the terms of the Artistic
+License 2.0.
 
 =cut
 
