@@ -2,6 +2,16 @@
 
 =encoding utf8
 
+=for HTML <a href="https://travis-ci.org/briandfoy/html-simplelinkextor"><img src="https://travis-ci.org/briandfoy/html-simplelinkextor.svg?branch=master" /></a>
+
+=for HTML <a href='https://ci.appveyor.com/project/briandfoy/html-simplelinkextor'><img src='https://ci.appveyor.com/api/projects/status/wxprll18ag1kd3wx' /></a>
+
+=for HTML <a href='https://coveralls.io/github/briandfoy/html-simplelinkextor?branch=master'><img src='https://coveralls.io/repos/github/briandfoy/html-simplelinkextor/badge.svg?branch=master' alt='Coverage Status' /></a>
+
+=for HTML <a href="https://github.com/briandfoy/html-simplelinkextor/blob/master/LICENSE"><img src="https://img.shields.io/cpan/l/HTML-SimpleLinkExtor.svg" /></a>
+
+=for HTML <a href="http://www.metacpan.org/module/HTML::SimpleLinkExtor"><img src="https://img.shields.io/cpan/v/HTML-SimpleLinkExtor.svg" /></A>
+
 =head1 The HTML::SimpleLinkExtor module
 
 This is the I<README> for the L<HTML::SimpleLinkExtor> Perl module. You're probably 
